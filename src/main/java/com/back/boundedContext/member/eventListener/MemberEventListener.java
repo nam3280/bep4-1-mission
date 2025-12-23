@@ -2,6 +2,7 @@ package com.back.boundedContext.member.eventListener;
 
 import com.back.boundedContext.member.entity.Member;
 import com.back.boundedContext.member.service.MemberService;
+import com.back.shared.post.event.PostCommentCreatedEvent;
 import com.back.shared.post.event.PostCreateEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -19,7 +20,13 @@ public class MemberEventListener {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void handle(PostCreateEvent event) {
         Member member = memberService.findById(event.getPost().getAuthorId()).get();
-
         member.increaseActivityScore(3);
+    }
+
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void handle(PostCommentCreatedEvent event) {
+        Member member = memberService.findById(event.getPostComment().getAuthorId()).get();
+        member.increaseActivityScore(1);
     }
 }
