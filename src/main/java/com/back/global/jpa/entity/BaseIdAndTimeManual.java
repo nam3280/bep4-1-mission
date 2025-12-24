@@ -1,8 +1,8 @@
 package com.back.global.jpa.entity;
 
+import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
-import org.springframework.data.annotation.Id;
 
 import java.time.LocalDateTime;
 
