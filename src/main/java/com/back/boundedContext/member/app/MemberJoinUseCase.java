@@ -11,14 +11,21 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class MemberJoinUseCase {
     private final MemberRepository memberRepository;
+    private final MemberFacade memberFacade;
 
     public RsData<Member> join(String username, String password, String nickname) {
+        String secureTip = memberFacade.getRandomSecureTip();
+
         memberRepository.findByUsername(username).ifPresent(m -> {
             throw new DomainException("409-1", "이미 존재하는 username 입니다.");
         });
 
         Member member = memberRepository.save(new Member(username, password, nickname));
 
-        return new RsData<>("201-1", "%d번 회원이 생성되었습니다.".formatted(member.getId()), member);
+        return new RsData<>(
+                "201-1",
+                "%d번 회원이 생성되었습니다. 보안 팁 : %s".formatted(member.getId(), secureTip),
+                member
+        );
     }
 }
