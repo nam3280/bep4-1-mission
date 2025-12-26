@@ -3,6 +3,9 @@ package com.back.boundedContext.cash.app;
 
 import com.back.boundedContext.cash.domain.CashMember;
 import com.back.boundedContext.cash.out.CashMemberRepository;
+import com.back.global.eventPublisher.EventPublisher;
+import com.back.shared.cash.dto.CashMemberDto;
+import com.back.shared.cash.event.CashMemberCreatedEvent;
 import com.back.shared.member.dto.MemberDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,18 +14,33 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CashSyncMemberUseCase {
     private final CashMemberRepository cashMemberRepository;
+    private final EventPublisher eventPublisher;
 
     public CashMember syncMember(MemberDto member) {
-        CashMember cashMember = new CashMember(
-                member.getId(),
-                member.getCreateDate(),
-                member.getModifyDate(),
-                member.getUsername(),
-                "",
-                member.getNickname(),
-                member.getActivityScore()
+        boolean isNew = !cashMemberRepository.existsById(member.getId());
+
+        CashMember cashMember = cashMemberRepository.save(
+                new CashMember(
+                    member.getId(),
+                    member.getCreateDate(),
+                    member.getModifyDate(),
+                    member.getUsername(),
+                    "",
+                    member.getNickname(),
+                    member.getActivityScore()
+                )
         );
 
-        return cashMemberRepository.save(cashMember);
+        if(isNew){
+            eventPublisher.publish(
+                new CashMemberCreatedEvent(
+                        new CashMemberDto(
+                                cashMember
+                        )
+                )
+            );
+        }
+
+        return cashMember;
     }
 }
