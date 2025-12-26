@@ -21,7 +21,6 @@ public class Wallet extends BaseManualIdAndTime {
     @ManyToOne(fetch = FetchType.LAZY)
     private CashMember holder;
 
-    @Getter
     private long balance;
 
     @OneToMany(mappedBy = "wallet", cascade = {PERSIST, REMOVE}, orphanRemoval = true)
