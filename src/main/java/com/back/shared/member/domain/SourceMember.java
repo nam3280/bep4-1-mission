@@ -28,6 +28,7 @@ public abstract class SourceMember extends BaseMember {
     private LocalDateTime modifyDate;
 
     public SourceMember(String username, String password, String nickname) {
-        super(username, password, nickname);
+        //초기에 만드는 score값을 0으로 초기화 한다.
+        super(username, password, nickname, 0);
     }
 }
