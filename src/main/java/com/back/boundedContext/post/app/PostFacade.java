@@ -18,7 +18,7 @@ import java.util.Optional;
 public class PostFacade {
     private final PostRepository postRepository;
     private final PostWriteUseCase postWriteUseCase;
-    private final PostMemberRepository postMemberRepository;
+        private final PostMemberRepository postMemberRepository;
 
     @Transactional(readOnly = true)
     public long count() {
@@ -26,7 +26,7 @@ public class PostFacade {
     }
 
     @Transactional
-    public RsData<Post> write(Member author, String title, String content) {
+    public RsData<Post> write(PostMember author, String title, String content) {
         return postWriteUseCase.write(author, title, content);
     }
 
@@ -47,5 +47,10 @@ public class PostFacade {
         );
 
         return postMemberRepository.save(postMember);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<PostMember> findPostMemberByUsername(String username) {
+        return postMemberRepository.findByUsername(username);
     }
 }
