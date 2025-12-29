@@ -13,6 +13,9 @@ public class PostApiClient {
             .baseUrl("http://localhost:8080/api/v1/post")
             .build();
 
+    // 자바의 타입 소거로 인해 런타임에는 List<PostDto> 정보가 사라진다.
+    // ParameterizedTypeReference는 제네릭 타입 정보를 런타임까지 유지
+    // Jackson이 List<PostDto>로 역직렬화할 수 있게 해준다.
     public List<PostDto> getItems() {
         return restClient.get()
                 .uri("/posts")
