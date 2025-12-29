@@ -1,6 +1,7 @@
-package com.back.boundedContext.post.out;
+package com.back.shared.post.out;
 
 import com.back.shared.post.dto.PostDto;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
@@ -9,9 +10,13 @@ import java.util.List;
 
 @Service
 public class PostApiClient {
-    private final RestClient restClient = RestClient.builder()
-            .baseUrl("http://localhost:8080/api/v1/post")
-            .build();
+    private final RestClient restClient;
+
+    public PostApiClient(@Value("${custom.global.internalBackUrl}") String internalBackUrl) {
+        this.restClient = RestClient.builder()
+                .baseUrl(internalBackUrl + "/api/v1/post")
+                .build();
+    }
 
     // 자바의 타입 소거로 인해 런타임에는 List<PostDto> 정보가 사라진다.
     // ParameterizedTypeReference는 제네릭 타입 정보를 런타임까지 유지

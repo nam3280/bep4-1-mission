@@ -4,7 +4,7 @@ import com.back.boundedContext.market.domain.Cart;
 import com.back.boundedContext.market.domain.Product;
 import com.back.boundedContext.market.app.MarketFacade;
 import com.back.boundedContext.market.domain.MarketMember;
-import com.back.boundedContext.post.out.PostApiClient;
+import com.back.shared.post.out.PostApiClient;
 import com.back.shared.post.dto.PostDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationRunner;
