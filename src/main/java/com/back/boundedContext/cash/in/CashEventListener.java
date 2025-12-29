@@ -3,6 +3,7 @@ package com.back.boundedContext.cash.in;
 
 import com.back.boundedContext.cash.app.CashFacade;
 import com.back.shared.cash.event.CashMemberCreatedEvent;
+import com.back.shared.market.event.MarketOrderPaymentRequestedEvent;
 import com.back.shared.member.event.MemberJoinedEvent;
 import com.back.shared.member.event.MemberModifiedEvent;
 import lombok.RequiredArgsConstructor;
@@ -35,5 +36,11 @@ public class CashEventListener {
     public void handle(CashMemberCreatedEvent event) {
         //영속화 하지 않고(객체로 받지 말고) 신호만 전달한다.
         cashFacade.createWallet(event.getMember());
+    }
+
+    @TransactionalEventListener(phase = AFTER_COMMIT)
+    @Transactional(propagation = REQUIRES_NEW)
+    public void handle(MarketOrderPaymentRequestedEvent event) {
+        cashFacade.handle(event);
     }
 }
