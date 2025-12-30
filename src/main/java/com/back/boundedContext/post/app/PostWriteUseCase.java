@@ -21,9 +21,7 @@ public class PostWriteUseCase {
         Post post = postRepository.save(new Post(author, title, content));
 
         eventPublisher.publish(
-                new PostCreateEvent(
-                        new PostDto(post)
-                )
+                new PostCreateEvent(post.toDto())
         );
 
         return new RsData<>("201-1", "%d번 글이 생성되었습니다.".formatted(post.getId()), post);

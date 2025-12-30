@@ -17,6 +17,18 @@ public class Member extends SourceMember {
         super(username, password, nickname);
     }
 
+    public MemberDto toDto() {
+        return new MemberDto(
+                getId(),
+                getUsername(),
+                getPassword(),
+                getNickname(),
+                getActivityScore(),
+                getCreateDate(),
+                getModifyDate()
+        );
+    }
+
     public int increaseActivityScore(int amount) {
         if(amount == 0){
             return getActivityScore();
@@ -25,9 +37,7 @@ public class Member extends SourceMember {
         setActivityScore(getActivityScore() + amount);
 
         publishEvent(
-                new MemberModifiedEvent(
-                        new MemberDto(this)
-                )
+                new MemberModifiedEvent(toDto())
         );
 
         return getActivityScore();

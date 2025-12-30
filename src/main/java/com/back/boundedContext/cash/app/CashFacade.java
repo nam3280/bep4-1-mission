@@ -4,7 +4,6 @@ import com.back.boundedContext.cash.domain.CashMember;
 import com.back.boundedContext.cash.domain.Wallet;
 import com.back.shared.cash.dto.CashMemberDto;
 import com.back.shared.market.dto.OrderDto;
-import com.back.shared.market.event.MarketOrderPaymentRequestedEvent;
 import com.back.shared.member.dto.MemberDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

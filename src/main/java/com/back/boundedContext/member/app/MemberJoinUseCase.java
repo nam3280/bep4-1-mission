@@ -28,11 +28,7 @@ public class MemberJoinUseCase {
         Member member = memberRepository.save(new Member(username, password, nickname));
 
         eventPublisher.publish(
-                new MemberJoinedEvent(
-                        new MemberDto(
-                        member
-                        )
-                )
+                new MemberJoinedEvent(member.toDto())
         );
 
         return new RsData<>(
