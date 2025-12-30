@@ -1,10 +1,10 @@
 package com.back.boundedContext.market.domain;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.springframework.context.annotation.Configuration;
 
 // Spring Bean으로 등록되어야 설정값 주입이 가능하다.
-@Service
+@Configuration
 public class MarketPolicy {
     public static double PRODUCT_PAYOUT_RATE;
 

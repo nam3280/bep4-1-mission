@@ -2,12 +2,12 @@ package com.back.boundedContext.member.domain;
 
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.springframework.context.annotation.Configuration;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-@Service
+@Configuration
 public class MemberPolicy {
     private static int PASSWORD_CHANGE_DAYS;
 
